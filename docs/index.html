@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Truth-Gated Harness Spec</title>
+<meta name="description" content="A starter spec for a truth-gated, heterogeneous-vendor AI-agent verification harness. Methodology blueprint only — no proprietary code, private data, or secrets. Seven differentiators, a single-conductor control plane, a 6-stage pipeline, and an honest benchmark designed to be losable.">
+<meta property="og:title" content="Truth-Gated Harness Spec">
+<meta property="og:description" content="Build an AI-agent harness that is best-in-the-world for a narrow purpose, provably — with a benchmark designed so it can show you not winning. Spec only, fully offline.">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+    color: #1a1a1a;
+    line-height: 1.55;
+  }
+  header { text-align: center; margin-bottom: 40px; }
+  h1 { font-size: 2.6em; margin: 0 0 0.3em; letter-spacing: -0.02em; }
+  p.sub { color: #555; font-size: 1.18em; margin: 0 auto; max-width: 680px; }
+  .cta-wrap { text-align: center; margin: 36px 0 44px; }
+  .cta {
+    display: inline-block;
+    background: #0366d6;
+    color: white;
+    padding: 18px 44px;
+    font-size: 1.2em;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(3, 102, 214, 0.25);
+    transition: background 0.15s, transform 0.05s, box-shadow 0.15s;
+  }
+  .cta:hover { background: #0255b3; box-shadow: 0 6px 16px rgba(3, 102, 214, 0.35); }
+  .cta:active { transform: translateY(1px); }
+  .cta-hint { font-size: 0.9em; color: #777; margin-top: 12px; }
+  h2 { font-size: 1.5em; margin-top: 48px; border-bottom: 1px solid #e1e4e8; padding-bottom: 6px; }
+  h3 { font-size: 1.12em; margin: 26px 0 4px; }
+  code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; font-family: "SF Mono", "Consolas", monospace; }
+  .note { background: #f6f8fa; border-left: 3px solid #0366d6; padding: 14px 18px; border-radius: 4px; margin: 28px 0; font-size: 0.95em; }
+  .warning { background: #fff5b1; border-left: 3px solid #ffd33d; padding: 12px 16px; border-radius: 4px; margin: 24px 0; font-size: 0.95em; }
+  .step { border-left: 3px solid #0366d6; padding: 8px 0 8px 18px; margin: 14px 0; }
+  .step strong { color: #0366d6; }
+  ul { padding-left: 22px; }
+  ol.stages { padding-left: 22px; }
+  ol.stages li { margin: 10px 0; }
+  .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-top: 16px; }
+  a.doc { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; border: 1px solid #e1e4e8; border-radius: 8px; text-decoration: none; color: #1a1a1a; background: #fff; transition: border-color .12s, box-shadow .12s, transform .04s; }
+  a.doc:hover { border-color: #0366d6; box-shadow: 0 4px 14px rgba(3,102,214,.12); }
+  a.doc:active { transform: translateY(1px); }
+  .doc-t { font-weight: 600; color: #0366d6; }
+  .doc-d { font-size: 0.85em; color: #666; line-height: 1.4; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.93em; margin-top: 12px; }
+  th, td { padding: 9px 12px; border-bottom: 1px solid #e1e4e8; text-align: left; vertical-align: top; }
+  th { background: #f6f8fa; font-weight: 600; }
+  .footer { margin-top: 80px; color: #595e63; font-size: 0.9em; text-align: center; }
+  .footer a { color: #444; }
+  .skip-link { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+  .skip-link:focus { position: static; width: auto; height: auto; padding: 8px; background: #0366d6; color: white; }
+  @media (max-width: 480px) { body { padding: 32px 18px 72px; } h1 { font-size: 2.1em; } }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header>
+  <h1>Truth-Gated Harness Spec</h1>
+  <p class="sub">A starter spec for an AI-agent harness that is <strong>best-in-the-world for a narrow purpose, provably</strong> — truth-gated, cross-vendor reproduction-and-verification of quantitative work, with a benchmark designed so it <em>can show you not winning</em>.</p>
+</header>
+
+<main id="main">
+
+<div class="cta-wrap">
+  <a class="cta" href="https://github.com/mahmood726-cyber/truthgated-harness-spec/archive/refs/tags/v0.1.0.zip">Download the spec (.zip) &darr;</a>
+  <div class="cta-hint">Or read it on <a href="https://github.com/mahmood726-cyber/truthgated-harness-spec">GitHub</a> · MIT licensed · spec only, fully offline · no code, no data, no secrets</div>
+</div>
+
+<div class="note">
+  <b>What this is.</b> A <strong>methodology blueprint</strong> you can adopt or adapt — not an implementation. It captures the <em>pattern</em> for building a harness where the failure mode is a <em>silently-wrong number</em>, not a crash (the motivating domain is evidence-synthesis methods research: meta-analysis, NMA, DTA, dose-response, registry-borrowing). There is deliberately <strong>no proprietary code, no private data, and no secrets</strong> here — only the pattern.
+</div>
+
+<h2>The core idea in one screen</h2>
+<div class="step"><strong>One control plane — the Conductor.</strong> A light router assigns each unit of work to the strongest live <em>frontier</em> vendor on the right node, gates the result, and moves on. It does not do the heavy reasoning. The router need not be the biggest model (a <em>tested</em> cost lever, not an assumption).</div>
+<div class="step"><strong>Cross-vendor consensus-or-flag.</strong> Every ship verdict is produced by &ge;2 <em>independent</em> model families; disagreement <em>flags</em> instead of silently resolving to the optimistic side. Homogeneous agreement is not independent corroboration.</div>
+<div class="step"><strong>An objective-gate floor under every accept.</strong> No ship rests on judges agreeing alone — there is always a named mechanical witness (test / diff / build / reference-parity / runtime check), or the task is reclassified human-in-the-chair.</div>
+<div class="step"><strong>Reproduction-or-flag.</strong> A number is accepted only when an independent vendor <em>re-derives</em> it to declared precision. Verification is re-derivation, not "a reviewer read it."</div>
+<div class="step"><strong>A private-eval moat — as a pattern.</strong> Score yourself against a private ground-truth corpus a competitor can't reproduce (e.g. registry-vs-published gaps), blinded at run time, growing as failures become fixtures. <em>Keep your actual ground truth private; publish only the pattern.</em></div>
+<div class="step"><strong>Cost-per-accepted-change, made visible and fenced.</strong> A correct harness that costs 10&times; a single agent for the same output is a science project, not a working program. Efficiency is half the win condition.</div>
+<div class="step"><strong>Frontier-heterogeneity, qualified on the HARDEST tasks.</strong> Weak models collapse on complex, long-horizon work — and the cliff is invisible on easy tasks. Qualify every seat on your hardest tasks; drop any panel member that rubber-stamps.</div>
+
+<h2>The 6-stage pipeline</h2>
+<p>Each stage is a loop with an objective gate, a bounded stop condition, external state, and a fence against its reward-hack.</p>
+<ol class="stages">
+  <li><strong>Problem / idea selection</strong> — admissible only if it has a private ground-truth path and a named primary estimand with a reproduction target.</li>
+  <li><strong>Ground-truth / private-eval acquisition</strong> — the moat: an eval nobody else can score against, blinded at run time. <em>Do not publish it.</em></li>
+  <li><strong>Method development</strong> — frontier models only; spec-driven "make the tests pass" inner loop with an objective gate.</li>
+  <li><strong>Cross-vendor verification (the crown)</strong> — consensus-or-flag on heterogeneous frontier models, an objective-gate floor beneath every pass, reproduce-or-flag, full provenance.</li>
+  <li><strong>Benchmark</strong> — beat published comparators, and run the honest A/B/C harness benchmark on a held-out split.</li>
+  <li><strong>Publish</strong> — ship with the same truth-gates; every claim traces to a source; no placeholder leaks.</li>
+</ol>
+
+<h2>The honest benchmark (it can show you NOT winning)</h2>
+<p>Three arms under an identical budget ceiling, scored on correctness <em>and</em> cost-per-accepted-change, decided on a held-out split the agent never reads:</p>
+<table>
+  <tr><th>Arm</th><th>What it isolates</th></tr>
+  <tr><td><strong>A — Single-agent</strong></td><td>The "capable model, brittle scaffold" control.</td></tr>
+  <tr><td><strong>B — Homogeneous multi-agent</strong></td><td>Does <em>more agents alone</em> win, without vendor diversity? If B &asymp; C, heterogeneity buys nothing.</td></tr>
+  <tr><td><strong>C — Heterogeneous truth-gated (yours)</strong></td><td>Cross-vendor consensus-or-flag + objective-gate floor + reproduction-or-flag, all as Conductor flows.</td></tr>
+</table>
+<div class="warning">
+  <b>Designed to be losable.</b> The benchmark must report the honest failure outcomes if they occur: if <code>B &asymp; C</code>, heterogeneity isn't paying; if C's cost-per-accepted &gg; A's, it's correct but unaffordable; if C's false-alarm rate is high, it cries wolf. Superiority that only appears on the tuning split is not superiority.
+</div>
+
+<h2>Read / download the full spec</h2>
+<div class="doc-grid">
+  <a class="doc" href="https://github.com/mahmood726-cyber/truthgated-harness-spec/blob/main/SPEC.md"><span class="doc-t">SPEC.md</span><span class="doc-d">Purpose anchor, the Conductor control plane, the 7 differentiators (each with an objective proof-signal), capability-cliff model selection.</span></a>
+  <a class="doc" href="https://github.com/mahmood726-cyber/truthgated-harness-spec/blob/main/WORKFLOW.md"><span class="doc-t">WORKFLOW.md</span><span class="doc-d">The 6-stage end-to-end pipeline, loop invariants, evolving-memory and evolve-the-harness layers, rollout ordering.</span></a>
+  <a class="doc" href="https://github.com/mahmood726-cyber/truthgated-harness-spec/blob/main/BENCHMARK.md"><span class="doc-t">BENCHMARK.md</span><span class="doc-d">The honest A/B/C benchmark: arms, metrics, blended score, win condition and stated failure outcomes.</span></a>
+  <a class="doc" href="https://github.com/mahmood726-cyber/truthgated-harness-spec/blob/main/docs/LOOP-ENGINEERING.md"><span class="doc-t">LOOP-ENGINEERING.md</span><span class="doc-d">The anatomy of one loop that can't cheat you: gate, proof, bounded stop, external state, fenced 4-part loss.</span></a>
+  <a class="doc" href="https://github.com/mahmood726-cyber/truthgated-harness-spec/blob/main/SOURCES.md"><span class="doc-t">SOURCES.md</span><span class="doc-d">Attribution for every external idea, with URLs and honesty caveats (evolve-the-harness, Loop Library, MADE, Trinity, LFD, and more).</span></a>
+  <a class="doc" href="https://github.com/mahmood726-cyber/truthgated-harness-spec/blob/main/README.md"><span class="doc-t">README.md</span><span class="doc-d">What it is, how to use it, how to adapt it to your own domain, vendors, and moat.</span></a>
+</div>
+
+<div class="note">
+  <b>How to adapt it.</b> Swap the domain (any field where the failure mode is a silently-wrong result). Swap the vendors ("family A / B / C" are placeholders for any &ge;2 <em>independent</em> frontier families — the differentiator is independence, not any product). And build <strong>your own</strong> moat: the one part you should not copy is a dataset — there isn't one here.
+</div>
+
+</main>
+
+<div class="footer">
+  <p>Part of <a href="https://github.com/mahmood726-cyber">Mahmood Ahmad</a>'s quality-dev ecosystem · <a href="https://github.com/mahmood726-cyber/truthgated-harness-spec">source</a> · MIT · the harness must agree with an objective witness before asking the world to agree with it.</p>
+</div>
+
+</body>
+</html>
