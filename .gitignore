@@ -1,0 +1,33 @@
+# This repo is a spec — no build artifacts, no data, no secrets.
+# These entries are defensive: they prevent accidentally committing local/private material.
+
+# Secrets & auth
+*.key
+*.pem
+*.env
+.env
+.env.*
+*_token*
+*secret*
+.codex/
+.ssh/
+
+# Local state / progress (never publish)
+PROGRESS.md
+STUCK_FAILURES.*
+sentinel-findings.*
+*.progress_*.json
+circuit_states.json
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Python (in case anyone adds tooling later)
+__pycache__/
+*.pyc
+.venv/
+venv/
